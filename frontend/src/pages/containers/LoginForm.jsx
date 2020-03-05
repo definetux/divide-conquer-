@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { authenticate } from '../../services/auth.mock'
+import { authenticate } from '../../services/auth'
 
 
 const loginForm = {

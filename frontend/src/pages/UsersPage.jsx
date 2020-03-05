@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { UserList } from './containers/UserList'
 import { Header } from './containers/Header'
-import { loadUsers, removeUser, saveUser } from '../services/user.mock'
+import { loadUsers, removeUser, saveUser } from '../services/user'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal';
 import { AddEditUser } from './containers/AddEditUser'
