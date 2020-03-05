@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { UserList } from './containers/UserList'
 import { Header } from './containers/Header'
+import { loadUsers, removeUser, saveUser } from '../services/user.mock'
+import { toast } from 'react-toastify'
 import Modal from 'react-modal';
 import { AddEditUser } from './containers/AddEditUser'
 
@@ -22,18 +24,35 @@ export const UsersPage = () => {
   const [showModal, setModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState()
 
-  const onRemoveUser = user => {}
+  useEffect(() => {
+    loadUsers()
+      .then(setUsers)
+      .catch(() => toast.error("No users found"))
+  }, [])
+
+  const onRemoveUser = user => removeUser(user)
+    .then(setUsers)
+    .catch(() => toast.error('Can not remove user!'))
 
   const onEditUser = user => {
     setModal(true)
+    setSelectedUser(user)
   }
 
   const onSaved = user => {
     setModal(false)
+    setSelectedUser(undefined)
+    saveUser({
+      id: parseInt(user.id),
+      name: user.name,
+      age: parseInt(user.age),
+      job: user.job
+    }).then(setUsers).catch(() => toast.error('Can not save user!'))
   }
 
   const onAddUser = () => {
     setModal(true)
+    setSelectedUser(undefined)
   }
 
   const onCloseModal = () => setModal(false)

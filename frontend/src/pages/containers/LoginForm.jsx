@@ -1,4 +1,9 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { authenticate } from '../../services/auth.mock'
+
 
 const loginForm = {
   height: '100%'
@@ -13,6 +18,17 @@ const column = {
 }
 
 export const LoginForm = () => {
+  const history = useHistory()
+  const { register, handleSubmit, errors } = useForm()
+
+  const loginUser = data => {
+    authenticate(data.email, data.password).then(() => {
+      history.push('/users')
+    }).catch(() => {
+      toast.error('Invalid login or password!')
+    })
+  }
+ 
   return (
     <div className="ui middle aligned center aligned grid" style={loginForm}>
       <div className="column" style={column}>
@@ -22,21 +38,25 @@ export const LoginForm = () => {
             Log-in to your account
           </div>
         </h2>
-        <form className="ui large form">
+        <form className="ui large form" onSubmit={handleSubmit(loginUser)}>
           <div className="ui stacked segment">
             <div className="field">
               <div className="ui left icon input">
                 <i className="user icon"></i>
-                <input type="text" name="email" placeholder="E-mail address" />
+                <input type="text" name="email" placeholder="E-mail address" ref={register} />
               </div>
             </div>
             <div className="field">
               <div className="ui left icon input">
                 <i className="lock icon"></i>
-                <input type="password" name="password" placeholder="Password" />
+                <input type="password" name="password" placeholder="Password" ref={register} />
               </div>
             </div>
             <button type="submit" className="ui fluid large blue submit button">Login</button>
+          </div>
+
+          <div className="ui error message">
+            {errors.password && <span>This field is required</span>}
           </div>
         </form>
         <div className="ui message">
