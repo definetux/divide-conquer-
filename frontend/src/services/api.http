@@ -1,0 +1,26 @@
+### Login
+POST http://localhost:5000/auth/
+Content-Type: application/json
+
+{
+    "login": "admin@binary-studio.com",
+    "password": "admin"
+}
+
+### Load users
+http://localhost:5000/user
+
+### Create new User
+POST http://localhost:5000/user/
+Content-Type: application/json
+
+{
+    "name": "Jane12asdasd3",
+    "age": 23,
+    "job": "engineer"
+}
+
+### Delete user
+DELETE http://localhost:5000/user/43
+Content-Type: application/json
+
